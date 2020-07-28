@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mitapp/Controller/api.dart';
+import 'package:mitapp/Screen/product.dart';
 
 class Category extends StatefulWidget {
   final int id;
@@ -15,14 +16,13 @@ class _CategoryState extends State<Category> {
   final String name;
   _CategoryState(this.id, this.name);
 
-  Future<List<Product>> _getProducts() async {
+  Future<List<ProductList>> _getProducts() async {
     var data = await CallApi().getDataWithoutToken('category/' + id.toString());
     var jsonData = json.decode(data.body);
-    List<Product> products = [];
+    List<ProductList> products = [];
 
     for (var n in jsonData) {
-      print(jsonData);
-      Product singleProduct = Product(n["id"], n["title"], n["photo"][0]["path"], n["price"].toString());
+      ProductList singleProduct = ProductList(n["id"], n["title"], n["photo"][0]["path"], n["price"].toString());
       products.add(singleProduct);
     }
 
@@ -59,11 +59,11 @@ class _CategoryState extends State<Category> {
                         title: Text("Price: " + snapshot.data[index].price),
                         subtitle: Text(snapshot.data[index].name),
                         onTap: () {
-                          //    Navigator.push(
-                          //    context,
-                          //    new MaterialPageRoute(
-                          //    builder: (conext) =>
-                          //    Details(snapshot.data[index])));
+                              Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                              builder: (conext) =>
+                              Product(snapshot.data[index].id, snapshot.data[index].name, name)));
                         },
                       );
                     });
@@ -78,14 +78,14 @@ class _CategoryState extends State<Category> {
   }
 }
 
-class Product {
+class ProductList {
   final int id;
   final String name;
   final String photo;
   final String price;
 
   var URL = "http://zielu922.vot.pl";
-  Product(this.id, this.name, this.photo, this.price);
+  ProductList(this.id, this.name, this.photo, this.price);
 
   String fullPath() {
     return URL + photo;

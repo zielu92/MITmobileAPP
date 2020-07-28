@@ -100,7 +100,7 @@ class _MyAppState extends State<MyApp> {
                           left: 10,
                           right: 10),
                       child: Text(
-                        'Login',
+                        'Add New product',
                         textDirection: TextDirection.ltr,
                         style: TextStyle(
                           color: Colors.white,
