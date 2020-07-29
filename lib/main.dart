@@ -5,6 +5,8 @@ import 'package:mitapp/Screen/login.dart';
 import 'package:mitapp/Screen/mainLogin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Screen/addProduct.dart';
+
 
 void main() {
   runApp(MaterialApp(
@@ -115,7 +117,7 @@ class _MyAppState extends State<MyApp> {
                     shape: new RoundedRectangleBorder(
                         borderRadius:
                         new BorderRadius.circular(20.0)),
-                    onPressed: null,
+                    onPressed: _addProduct,
                   ),
                 ],
               ),
@@ -137,5 +139,12 @@ class _MyAppState extends State<MyApp> {
         context,
         new MaterialPageRoute(
             builder: (context) => Categories()));
+  }
+
+  void _addProduct() {
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => AddNewProduct()));
   }
 }

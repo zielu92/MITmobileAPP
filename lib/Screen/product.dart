@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mitapp/Controller/api.dart';
 
+
 class Product extends StatefulWidget {
   final int id;
   final String name;
@@ -28,7 +29,9 @@ class _ProductState extends State<Product> {
         jsonData["title"],
         jsonData["photo"][0]["path"],
         jsonData["price"].toString(),
-        jsonData["description"]);
+        jsonData["description"],
+        jsonData["created_at"].toString(),
+    );
     return product;
   }
 
@@ -47,7 +50,6 @@ class _ProductState extends State<Product> {
             future: _getProductDetails(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
-                // ignore: missing_return
                 return Container(
                   child: Center(child: Text("Loading Product...")),
                 );
@@ -60,9 +62,10 @@ class _ProductState extends State<Product> {
                       //Center Items
                       Text('Price: '+ snapshot.data.price +" B"),
                       Text("Where "+ snapshot.data.donationMoney() +" B is a donation for poor kinds" ),
-                      Expanded(
-                        child: Text(snapshot.data.description),
-                      ),
+//                      Expanded(
+//                        child: Text(snapshot.data.description),
+//                      ),
+                      Text("created at: "+snapshot.data.created_at),
                     ],
                   ),
                 );
@@ -81,9 +84,10 @@ class SingleProduct {
   //can be convert into integer/long/decimal later;
   final String price;
   final String description;
+  final String created_at;
 
   var URL = "http://zielu922.vot.pl";
-  SingleProduct(this.id, this.name, this.photo, this.price, this.description);
+  SingleProduct(this.id, this.name, this.photo, this.price, this.description, this.created_at);
 
   String fullPath() {
     return URL + photo;
