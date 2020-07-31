@@ -32,6 +32,14 @@ class _AddNewProductState extends State<AddNewProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF8dc63f),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text("Add new product"),
+      ),
       body: Container(
         child: Stack(
           children: <Widget>[

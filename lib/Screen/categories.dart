@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mitapp/Controller/api.dart';
 import 'package:mitapp/Screen/Category.dart';
+import 'package:mitapp/Screen/addProduct.dart';
+import 'package:mitapp/Screen/mainLogin.dart';
 
 class Categories extends StatefulWidget {
   @override
@@ -28,42 +30,94 @@ class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text("Categories"),
-      ),
-      body: Container(
-        child: FutureBuilder(
-          future: _getCategories(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              return Container(
-                child: Center(child: Text("Loading Categories...")),
-              );
-            } else {
-              return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: Image.network(snapshot.data[index].fullPath()),
-                      title: Text("ID: " + snapshot.data[index].id.toString()),
-                      subtitle: Text(snapshot.data[index].name),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (conext) => Category(
-                                    snapshot.data[index].id,
-                                    snapshot.data[index].name)));
-                      },
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            appBar(),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text("Support locals and buy local", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),),
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder(
+                future: _getCategories(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return Container(
+                      child: Center(child: Text("Loading Categories...")),
                     );
-                  });
-            }
-          },
+                  } else {
+                    return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            child: ListTile(
+                              leading: Image.network(
+                                  snapshot.data[index].fullPath()),
+                              title: Text(snapshot.data[index].name.toString()),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (conext) => Category(
+                                            snapshot.data[index].id,
+                                            snapshot.data[index].name)));
+                              },
+                            ),
+                          );
+                        });
+                  }
+                },
+              ),
+            ),
+          ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => AddNewProduct()));
+        },
+        child: Icon(Icons.add_circle),
+        backgroundColor: Colors.green,
+      ),
+
+    );
+  }
+
+  Widget appBar() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          SizedBox(width:50.0),
+          Container(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "MIT App",
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2F2F3E)),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.supervised_user_circle, color: Colors.black),
+            onPressed: () => Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => MainLogin())),
+          ),
+        ],
       ),
     );
   }

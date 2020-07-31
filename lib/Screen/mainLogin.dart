@@ -32,11 +32,12 @@ class _MainLoginState extends State<MainLogin> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFF8dc63f),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("login main"),
+        title: Text("User account"),
       ),
       body: _isLoggedIn ? Home() :  LogIn(),
     );
